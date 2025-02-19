@@ -1,0 +1,48 @@
+using System.Diagnostics.Metrics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+int counter = 0;
+List<double> numbersWithoutShortcut = new List<double>();
+double removeEven(double value)
+{
+    double newNumber = 0;
+
+    List<double> list = new List<double>();
+    List<double> newList = new List<double>();
+    for (; ; )
+    {
+        list.Add(Math.Floor(value / 10000));
+        list.Add(Math.Floor(value / 1000) % 10);
+        list.Add((Math.Floor(value / 100) % 100) % 10);
+        list.Add((Math.Floor(value / 10) % 1000) % 10);
+        list.Add((Math.Floor(value) % 10000) % 10);
+        break;
+    }
+    foreach (double n in list)
+    {
+        if (n % 2 == 1)
+        {
+            newList.Add(n);
+        }
+    }
+    if(newList.Count==0)
+    {
+        return 0;
+    }
+    foreach (double n in newList)
+    {
+        newNumber = 10 * newNumber + n;
+    }
+    return newNumber;
+}
+
+foreach (string line in File.ReadLines("C:\\Dane-NF-2405\\skrot.txt"))
+{
+    double intLine=double.Parse(line);
+    if(removeEven(intLine)==0)
+    {
+        counter++;
+        numbersWithoutShortcut.Add(intLine);
+    }
+}
+Console.WriteLine(counter);
+Console.WriteLine(numbersWithoutShortcut.Max());
