@@ -1,0 +1,52 @@
+using System.Diagnostics.Metrics;
+using System.Numerics;
+double removeEven(double value)
+{
+    double newNumber = 0;
+
+    List<double> list = new List<double>();
+    List<double> newList = new List<double>();
+    for (; ; )
+    {
+        list.Add(Math.Floor(value / 10000));
+        list.Add(Math.Floor(value / 1000) % 10);
+        list.Add((Math.Floor(value / 100) % 100) % 10);
+        list.Add((Math.Floor(value / 10) % 1000) % 10);
+        list.Add((Math.Floor(value) % 10000) % 10);
+        break;
+    }
+    foreach (double n in list)
+    {
+        if (n % 2 == 1)
+        {
+            newList.Add(n);
+        }
+    }
+    if (newList.Count == 0)
+    {
+        return 0;
+    }
+    foreach (double n in newList)
+    {
+        newNumber = 10 * newNumber + n;
+    }
+    return newNumber;
+}
+double gcd(double value1, double value2)
+{
+    while (value2 != 0)
+    {
+        double temp = value2;
+        value2 = Math.IEEERemainder(value1, value2);
+        value1 = temp;
+    }
+
+    return Math.Abs(value1);
+}
+foreach (string line in File.ReadLines("C:\\Dane-NF-2405\\skrot2.txt"))
+{
+    if(gcd(double.Parse(line),removeEven(double.Parse(line)))==7)
+    {
+        Console.WriteLine(line);
+    }
+}
