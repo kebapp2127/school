@@ -1,0 +1,91 @@
+int ReverseNumber(int number)
+{
+    return (int.Parse(number.ToString().Reverse().ToArray()));
+}
+bool isPrime(int number)
+{
+    for (int i = 2; i < number; i++)
+    {
+        if (number % i == 0)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+string path = "C:\\matura czerwiec 2022\\matura czerwiec 2022\\liczby.txt";
+
+if (File.Exists(path))
+{
+    List<int> listOfReversedNumbers = new List<int>();
+    List<int> listOfNumbers = new List<int>();
+    foreach (string line in File.ReadLines(path))
+    {
+        int NumberFromFile = int.Parse(line.ToArray());
+        int ReversedNumberFromFile = int.Parse(line.Reverse().ToArray());
+        listOfReversedNumbers.Add(ReversedNumberFromFile);
+        listOfNumbers.Add(NumberFromFile);
+    }
+
+    Console.WriteLine("4.1(odwrócone liczby podzielne przez 17):\n");
+    foreach(int number in listOfReversedNumbers)
+    {
+        if(number%17==0)
+        {
+            Console.WriteLine(number);
+        }
+    }
+
+    Console.WriteLine("4.2(wartość bezwzględna różnicy liczby i odwrócenia):\n");
+    foreach (int number in listOfReversedNumbers)
+    {
+        Console.WriteLine(Math.Abs(number - ReverseNumber(number)));
+    }
+    Console.WriteLine("4.3(liczby które są pierwsze i ich odbicie jest pierwsze):\n");
+    foreach(int number in listOfNumbers)
+    {
+        
+        if (isPrime(number)&&isPrime(ReverseNumber(number)))
+        {
+            Console.WriteLine(number);
+        }
+    }
+    
+    Console.WriteLine("4.4(powtórzenia liczb):\n");
+    Dictionary<int,int> numbersAppearance = new Dictionary<int,int>();
+    foreach(int number in listOfNumbers)
+    {
+        if (numbersAppearance.ContainsKey(number))
+        {
+            numbersAppearance[number]++;
+        }
+        else
+        {
+            numbersAppearance.Add(number, 1);
+        }   
+    }
+    int oneAppearence=0;
+    int twoAppearences=0;
+    int threeAppearences=0;
+    foreach (var pair in numbersAppearance)
+    {
+        if(pair.Value==1)
+        {
+            oneAppearence++;
+        }
+        else if(pair.Value==2)
+        {
+            twoAppearences++;
+        }
+        else if (pair.Value==3)
+        {
+            threeAppearences++;
+        }
+    }
+    Console.WriteLine("pojedyńcze wystąpienia: " + oneAppearence + '\n' + "dwa wystąpienia: " + twoAppearences + '\n' + "trzy wystąpienia: " + threeAppearences);
+
+}
+else
+{
+    Console.WriteLine("nie znaleziono pliku");
+}
